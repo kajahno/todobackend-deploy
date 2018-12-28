@@ -1,0 +1,30 @@
+---
+- name: create/update stack
+  cloudformation:
+    stack_name: todobackend
+    state: present
+    template: templates/stack.yml
+    template_format: yaml
+    template_parameters:
+      VpcId: "{{ vpc_id }}"
+      SubnetId: "{{ subnet_id }}"
+      DbSubnets: "{{ db_subnets | join(',') }}"
+      KeyPair: "{{ ec2_keypair }}"
+      DbUsername: "{{ db_username }}"
+      DbPassword: "{{ db_password }}"
+      DbAvailabilityZone: "{{ db_availability_zone }}"
+      InstanceCount: "{{ instance_count | default(1) }}"
+  tags: ['test']
+  register: cf_stack
+  ignore_errors: true
+
+- debug: msg={{ cf_stack }}
+  when: debug is defined
+
+# - name: delete stack if errored
+#   cloudformation:
+#     stack_name: todobackend
+#     state: absent
+#   # when: 
+#     # - cf_stack.failed | bool
+#     # - remove is defined

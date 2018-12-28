@@ -1,0 +1,10 @@
+---
+vpc_id: vpc-f1b02699
+subnet_id: subnet-19d67263
+ec2_keypair: aws-London
+instance_count: 2
+db_subnets:
+  - subnet-f48e169d
+  - subnet-19d67263
+db_availability_zone: eu-west-2a
+db_username: todobackend
